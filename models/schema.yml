@@ -41,15 +41,35 @@ sources:
           - name: CAMPAIGN
             description: id of the campaign
       - name: transactions
+        description: Users transaction data
+        columns:
+          - name: USER_ID
+            description: Users user id 
+          - name: TRANSACTION_ID
+            description: unique transaction id
+          - name: TOTAL_VALUE
+            description: total value of unique transaction
+          - name: TRANSACTION_TIME
+            description: attribution_timestamp
       - name: campaign_costs
+        description: attributon cost only for google campaigns
+        columns:
+          - name: COST
+            description: cost per campaign 
+          - name: CAMPAIGN_ID
+            description: unique campaign id
+         
 models:
   - name: stg_registrations_clean
+    description: this model filters out users who haven't completed registration 
     columns: 
       - name: user_id
         tests: #tests that would be run on the column
           - unique
 
   - name: int_marketing_attribution 
+    description: this model combines the aligned colums of the tables google ads and applyers
+                  data on attribution and costs
     columns: 
       - name: device_id
         tests:
@@ -60,6 +80,8 @@ models:
           - not_null
 
   - name: int_ltv
+    description: this model calculates the users lifetime, 
+                  the daily rev and the cumulated daily rev for a certain lifetime
     columns: 
       - name: reg_date
         tests:
@@ -68,6 +90,7 @@ models:
         tests:
            - not_null
   - name: marts_roi
+    description: this model calculates the roi in % for each user
     columns: 
       - name: attribution_cost
         tests:
